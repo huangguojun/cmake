@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/work/project/cmake/t1/main.c
+/home/hgj/Project/cmake/t1/main.c
 stdio.h
 -
 

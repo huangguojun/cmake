@@ -1,1 +1,3 @@
-/work/project/cmake/t1/build/CMakeFiles/hello.dir
+/home/hgj/Project/cmake/t1/build/CMakeFiles/edit_cache.dir
+/home/hgj/Project/cmake/t1/build/CMakeFiles/rebuild_cache.dir
+/home/hgj/Project/cmake/t1/build/CMakeFiles/hello.dir
