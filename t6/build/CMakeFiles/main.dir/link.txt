@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/main.dir/main.cpp.o  -o main -rdynamic lib/libhello.so -ldb_cxx -Wl,-rpath,/home/hgj/Project/cmake/t6/build/lib 

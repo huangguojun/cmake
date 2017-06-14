@@ -1,0 +1,51 @@
+dist: trusty
+before_install:
+- sudo apt-get install -y cmake liblog4cpp5-dev liblivemedia-dev libasound2-dev
+- sudo apt-get install -y qemu-user-static debootstrap 
+# for coverage
+- pip install --user cpp-coveralls pyYaml
+# install chroot for cross-compilation
+- sudo debootstrap --arch armhf --foreign --include=g++,git,make,cmake,liblog4cpp5-dev,liblivemedia-dev,libasound2-dev jessie rootfs http://sfo-korg-mirror.kernel.org/debian
+- sudo cp /usr/bin/qemu-arm-static rootfs/usr/bin/
+- sudo chroot rootfs /debootstrap/debootstrap --second-stage
+language: cpp
+compiler:
+- gcc
+script:
+#build on native system
+- cmake . && make && cpack .
+#build on chroot system
+- rm -rf CMakeCache.txt *.a CMakeFiles
+- sudo mount --bind . rootfs/home
+- sudo chroot rootfs bash -c "cd /home && cmake . && make && cpack ."
+#run coverage test
+- sudo rm -rf CMakeCache.txt *.a CMakeFiles
+- cmake -DCOVERAGE=ON . && make && make test
+after_success:
+- coveralls --gcov-options '\-lp'
+env:
+  global:
+  - secure: hcQTuiLgzgWcinU2QKOlVI7xe0/XWAf6PnBbQG6YI7CkoQWMOaayime+07CpkRFM83GnZ7pc6qeA+RzVjwTZVfyIM8/T0af0mSNqop/ciflFa8t6v3k4nmUsWB9Cw9vEPdfuzsUMU1g7+qGFBMFRQj4lwgxgVll/S9wAUjD14pU=
+addons:
+  coverity_scan:
+    project:
+      name: mpromonet/h264_v4l2_rtspserver
+    build_command_prepend: cmake .
+    build_command: make
+    branch_pattern: master
+    notification_email: scan_notifications@example.com
+before_deploy:
+  - export RELEASE_PKG_FILE_X86=$(ls *-x86_64.deb)
+  - export RELEASE_PKG_FILE_ARM=$(ls *-armhf.deb)
+  - echo "deploying ${RELEASE_PKG_FILE_X86} ${RELEASE_PKG_FILE_ARM} to GitHub releases"    
+deploy:
+  provider: releases
+  api_key:
+    secure: HvPy3gyZ1nGPLAMgpRvJO2yFqpYBU7HzPQVr8LkBuOIMfya+08fbrQ9lRmvGI/3R4hwx4aPZug2DEfedP07vFXmbISLy/VTeL9TBg86CKX4vPywaoqiv5mTECUp29pmj9R3aCrIK0ROjuXQJqLN1/+jsAEnvh/gBMplQuM6a3Zc=
+  file: 
+    - "${RELEASE_PKG_FILE_X86}"
+    - "${RELEASE_PKG_FILE_ARM}"
+  skip_cleanup: true
+  on:
+    repo: mpromonet/h264_v4l2_rtspserver
+    tags: true
