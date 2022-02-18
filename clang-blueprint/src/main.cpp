@@ -9,7 +9,7 @@
 #include "fact/factorial.h"
 
 /// Program entry point.
-int32_t main(const int32_t /*argc*/, const char* /*argv[]*/) {
+int32_t main(const int32_t /*argc*/, const char** /*argv[]*/) {
     const int32_t n = 7;
     const int32_t result = fact::factorial(n);
 
