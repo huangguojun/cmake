@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/cub.dir/main.cpp.o CMakeFiles/cub.dir/cub.cc.o  -o cub 

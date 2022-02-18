@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../inc/cub.h
+
+/home/hgj/Project/cmake/cmake_gtest_gcov/src/cub.cc
+cub.h
+/home/hgj/Project/cmake/cmake_gtest_gcov/src/cub.h
+cmath
+-
+
+/home/hgj/Project/cmake/cmake_gtest_gcov/src/main.cpp
+iostream
+-
+cub.h
+/home/hgj/Project/cmake/cmake_gtest_gcov/src/cub.h
+
